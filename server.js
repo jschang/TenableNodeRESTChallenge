@@ -48,6 +48,5 @@ const server = http.createServer((req,res)=>{
 
 server.on('clientError', (err, socket) => {
   util.log('clientError: ',err);
-  socket.end(responseCodes[400]);
 });
 
