@@ -10,10 +10,6 @@ var responseCodes = {
 }
 
 const server = http.createServer((req,res)=>{
-  // if we find a route, then execute it,
-  // elsewise response is 404
-  var route = router.determine(req,res);
-  if(!route) return;
   
   req.on('error', function(e) {
     util.request.handleServerError(req,res,e);
@@ -33,10 +29,17 @@ const server = http.createServer((req,res)=>{
       try {
         body = Buffer.concat(body).toString();
         req.body = body;
+        // if we find a route, then execute it,
+        // elsewise response is 404
+        var route = router.determine(req,res);
         // once we have the whole body,
         // then fire off the handler
         // should all be fairly small json payloads
-        route(req,res)
+        if (route) {
+          route(req,res)
+        } else {
+          req.emit('error', new util.request.error(404,'Not Found'));
+        }
       } catch(e) {
         util.request.handleServerError(req,res,e);
       }

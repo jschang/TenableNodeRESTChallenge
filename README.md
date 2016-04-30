@@ -64,16 +64,6 @@ to trim off any that are stale.  IRL, this would likely be a memcached cluster o
 
 
 
-Known Issue
------------
-
-I was unable to figure out a good way to handle a particular server crash.
-If you post something that's not a standard request method (UPDATE, for example)
-then the server completely barfs.  I'll be trying to fix it once I complete
-the requirements.
-
-
-
 The Challenge
 =============
 
