@@ -4,6 +4,8 @@ Tenable REST API Challenge
 Here we have my implementation of a Node.js REST api
 challenge offered by Tenable Network Security. 
 
+
+
 To Evaluate
 ===========
 
@@ -15,11 +17,48 @@ then run the tests (in a separate terminal)
 
     $ node client-test.js  
 
+
+
+Implementation Notes
+--------------------
+
+As this is vanilla-node, the datasources are just in _svc/auth/data.js_ and
+_svc/config/data.js_.  The only way they are interacted with is via the _model.js_.
+I could have gone with writing/reading json files, but I didn't.
+
+This is in the spirit of microservices, so I extended the /auth api to
+allow for a session verification endpoint, which is used by the /config endpoint.
+
+There is a custom router implementation in util/router.js, which can handle
+pathing of arbitrary depth and allows the request method to be specified.
+The root of routing is svc/routes.js
+
+Also, to be noted, this impl is served HTTP in plain-text...horribly insecure.
+My excuse for letting it slide is that it would most likely be running on HTTPS 
+in the wild.
+
+Names are evaluated in a case-sensitive manner, with the exception of sorting.
+
+
+
+Known Issue
+-----------
+
+I was unable to figure out a good way to handle a particular server crash.
+If you post something that's not a standard request method (UPDATE, for example)
+then the server completely barfs.  I'll be trying to fix it once I complete
+the requirements.
+
+
+
 The Challenge
 =============
 
+
+
 **Using Node (and only Node) create a web service with a REST API with 
 routes that:**
+
 
   _1) Allow a user to login_
 
@@ -48,8 +87,11 @@ Response body:
     
 Responds with either a 200 or 404, if the session is not found.
 
+
+
 **Building on the previous question, use Node (and only Node) to create a REST 
 compliant API with routes that allow an authenticated user to:**
+
 
   _1) Retrieve server configurations as JSON data (using the below as a sample)_
     
@@ -64,6 +106,7 @@ Response body:
       ]
     }  
 
+
   _1.2) To retrieve a specific configuration (mine)_
 
     GET /config?token={token}&name={verboseName}
@@ -71,6 +114,7 @@ Response body:
 Response body:
 
     {name:_name_,hostname:_hostname_,port:_port_,username:_username_}
+
 
   _2) Create configurations_
   
@@ -86,11 +130,13 @@ Post body:
     }
 
 Responds with a 409 if you try to create a pre-existing name.
-    
+
+
   _3) Delete configurations_
   
   DELETE /auth?token={token}&name=_urlEncodedVerboseName_
-  
+
+
   _4) Modify configurations_
   
   PATCH /auth?token={token}&name=_urlEncodedVerboseName_
@@ -104,8 +150,11 @@ Post body:
       username:_modifiedUsername_
     }
 
+    
+    
 **Building on the previous question, use Node (and only Node) to modify your 
 REST compliant API routes to support:**
+
 
   _1) Sorting by name, hostname, port, or username_
   
@@ -121,6 +170,8 @@ Response body:
   
 _yet to be completed_
 
+
+
 Standard Responses
 ------------------
 
@@ -134,32 +185,5 @@ For all error codes, the response body is:
 
     {error:true,message:_wtfhappened_}
   
-Implementation Notes
---------------------
-
-As this is vanilla-node, the datasources are just in _svc/auth/data.js_ and
-_svc/config/data.js_.  The only way they are interacted with is via the _model.js_.
-I could have gone with writing/reading json files, but I didn't.
-
-This is in the spirit of microservices, so I extended the /auth api to
-allow for a session verification endpoint, which is used by the /config endpoint.
-
-There is a custom router implementation in util/router.js, which can handle
-pathing of arbitrary depth and allows the request method to be specified.
-The root of routing is svc/routes.js
-
-Also, to be noted, this impl is served HTTP in plain-text...horribly insecure.
-My excuse for letting it slide is that it would most likely be running on HTTPS 
-in the wild.
-
-Names are evaluated in a case-sensitive manner, with the exception of sorting.
-
-Known Issue
------------
-
-I was unable to figure out a good way to handle a particular server crash.
-If you post something that's not a standard request method (UPDATE, for example)
-then the server completely barfs.  I'll be trying to fix it once I complete
-the requirements.
 
 
