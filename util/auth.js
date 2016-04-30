@@ -18,7 +18,6 @@ module.exports = {
         } else {
           util.dbg("Unauthorized");
           req.emit('error',new util.request.error(401,"Unauthorized"));
-          return;
         }
       });
     }

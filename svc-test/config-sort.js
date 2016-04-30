@@ -17,7 +17,6 @@ testFetchSorted(res,'port','desc',() => {
 var testFetchSorted = (authRes,sort,dir,next)=>{
   var authData = JSON.parse(authRes.body);
   util.dbg('authData=',authData);
-  // validate that attemption to fetch will return an array of expected size
   var parms = {
     token:authData.token,
     sort:sort,

@@ -8,9 +8,11 @@ module.exports = util.auth.wrap((req,res)=>{
     || !newConfig.hostname
     || !newConfig.port) {
     req.emit('error',new util.request.error(400,"All configurations must have a name, username, hostname, and port"));
+    return;
   }
   if(typeof(newConfig.port)!='number') {
     req.emit('error',new util.request.error(400,"'port' must be numeric"));
+    return;
   }
   model.update(newConfig,(success)=>{
     if(success) {

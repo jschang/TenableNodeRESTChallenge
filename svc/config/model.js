@@ -55,9 +55,9 @@ module.exports = {
    */
   fetchAll:function(cb,sort,dir,start,count) {
     util.dbg('fetchAll parms:',[sort,dir,start,count]);
+    var toret = data.configs;
     var start = typeof(start)!='undefined' ? start : 0;
     var count = typeof(count)!='undefined' ? count : 0;
-    var toret = data.configs;
     if(count && start<data.configs.length) {
       toret = data.configs.slice(start,start+count);
     }

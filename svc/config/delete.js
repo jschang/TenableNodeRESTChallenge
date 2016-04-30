@@ -6,6 +6,7 @@ module.exports = util.auth.wrap((req,res)=>{
   var query = require('url').parse(req.url,true).query;
   if(!query.name) {
     req.emit('error',util.request.error(400,"'name' is required for DELETE operations"));
+    return;
   }
   model.fetch(query.name,(data)=>{
     if(data) {

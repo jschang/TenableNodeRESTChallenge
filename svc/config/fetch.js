@@ -14,10 +14,11 @@ module.exports = util.auth.wrap((req,res)=>{
       }
     });
   } else {
-    var start = query.start ? query.start : 0;
-    var count = query.count ? query.count : 0;
-    if(typeof(start)!='number' || typeof(count)!='number') {
+    var start = query.start ? query.start : '0';
+    var count = query.count ? query.count : '0';
+    if(!start.match(/[0-9]+/) || !count.match(/[0-9]+/)) {
       req.emit('error',util.request.error(400,'Both start and count parameters must be numbers'));
+      return;
     }
     model.fetchAll((data)=>{
       if(data) {

@@ -46,28 +46,32 @@ module.exports = {
       headers:headers
     }
     util.dbg(method+'ing to '+path+': '+postData);
-    var req = http.request(options, (res) => {
-      var data = [];
-      util.dbg('status code: ',res.statusCode);
-      util.dbg('status message: ',res.statusMessage);
-      util.dbg('headers: ',res.headers);
-      res
-        .on('data',function(d){
-          data.push(d)
-        })
-        .on('end',function(d){
-          data = Buffer.concat(data).toString()
-          res.body = data;
-          util.dbg(method+'ing response for '+path+': ',data);
-          callback(res);
-        })
-    });
-    req.on('error',function(e) {
-        util.log('request error: ',e);
-    });
-    if(postData) {
-      req.write(postData);
+    var req = null;
+    try {
+       req = http.request(options, (res) => {
+        var data = [];
+        util.dbg('status code: ',res.statusCode);
+        util.dbg('status message: ',res.statusMessage);
+        util.dbg('headers: ',res.headers);
+        res
+          .on('data',function(d){
+            data.push(d)
+          })
+          .on('end',function(d){
+            data = Buffer.concat(data).toString()
+            res.body = data;
+            util.dbg(method+'ing response for '+path+': ',data);
+            callback(res);
+          })
+      });
+      req.on('error',function(e) {
+          util.log('request error: ',e);
+      });
+      if(postData) {
+        req.write(postData);
+      }
+    } finally {
+      if(req && !req.finished) req.end();
     }
-    req.end();
   }
 }
