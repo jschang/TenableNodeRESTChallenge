@@ -3,14 +3,14 @@ const http = require('http');
 const util = require('../util.js');
 const stringify = require("querystring").stringify;
 
-var newConfig2 = {
+var newConfig = {
   name:"New Service",
   hostname:"vargus.jonschang.com",
   port:3543,
   username:"boondocks"
 };
-var newConfig = {
-  name:"Samson Service",
+var existingConfig = {
+  name:"Dancing Service",
   hostname:"samson.jonschang.com",
   port:3543,
   username:"fetidsocks"
@@ -33,7 +33,7 @@ var testFetchAll = (authRes)=>{
   // validate that attemption to fetch will return an array of expected size
   util.request.exec('GET','/config?token='+authData.token,null,(configRes)=>{
     assert.equal(200,configRes.statusCode);
-    assert.equal(5,JSON.parse(configRes.body).length);
+    assert.equal(5,JSON.parse(configRes.body).configs.length);
     // validate that attempting to fetch with a bad token will fail
     util.request.exec('GET','/config?token=badtoken',null,(configRes)=>{
       assert.equal(401,configRes.statusCode);
@@ -45,7 +45,7 @@ var testFetchAll = (authRes)=>{
 
 // validate that attempting to create a new one will return 409
 var testCreateExisting = (authData)=> {
-  util.request.exec('POST','/config?token='+authData.token,newConfig,(configRes)=>{
+  util.request.exec('POST','/config?token='+authData.token,existingConfig,(configRes)=>{
     assert.equal(409,configRes.statusCode);
     assert.equal(true,JSON.parse(configRes.body).error);
     assert.equal("Conflict - Already exists",JSON.parse(configRes.body).message);
@@ -55,13 +55,13 @@ var testCreateExisting = (authData)=> {
 
 // validate that a new one can be created
 var testActualNew = (authData)=>{
-  util.request.exec('POST','/config?token='+authData.token,newConfig2,(configRes)=>{
+  util.request.exec('POST','/config?token='+authData.token,newConfig,(configRes)=>{
     assert.equal(200,configRes.statusCode);
     assert.equal(false,JSON.parse(configRes.body).error);
     // validate that attemption to fetch will return an array of expected size
     util.request.exec('GET','/config?token='+authData.token,null,(configRes)=>{
       assert.equal(200,configRes.statusCode);
-      assert.equal(6,JSON.parse(configRes.body).length);
+      assert.equal(6,JSON.parse(configRes.body).configs.length);
       testFetchCreated(authData);
     });
   });
@@ -70,14 +70,14 @@ var testActualNew = (authData)=>{
 // validate that we can fetch the new one we created
 var testFetchCreated = (authData)=> {
   // validate that attemption to fetch will return an array of expected size
-  util.request.exec('GET','/config?'+stringify({token:authData.token,name:"Samson Service"}),null,(configRes)=>{
+  util.request.exec('GET','/config?'+stringify({token:authData.token,name:"Dancing Service"}),null,(configRes)=>{
     assert.equal(200,configRes.statusCode);
     var conf = JSON.parse(configRes.body)
-    assert.deepEqual(newConfig,conf);
+    assert.deepEqual(existingConfig,conf);
     // validate that attemption to fetch will return an array of expected size
     util.request.exec('GET','/config?token='+authData.token,null,(configRes)=>{
       assert.equal(200,configRes.statusCode);
-      assert.equal(6,JSON.parse(configRes.body).length);
+      assert.equal(6,JSON.parse(configRes.body).configs.length);
       testDeleteExisting(authData);
     });
   });
@@ -85,15 +85,15 @@ var testFetchCreated = (authData)=> {
 
 // validate that we can delete
 var testDeleteExisting = (authData)=>{
-  util.request.exec('DELETE','/config?'+stringify({token:authData.token,name:"Samson Service"}),null,(configRes)=>{
+  util.request.exec('DELETE','/config?'+stringify({token:authData.token,name:"Dancing Service"}),null,(configRes)=>{
     assert.equal(200,configRes.statusCode);
     assert.equal(false,JSON.parse(configRes.body).error);
     // validate that attemption to fetch will return an array of expected size
     util.request.exec('GET','/config?token='+authData.token,null,(configRes)=>{
       assert.equal(200,configRes.statusCode);
-      assert.equal(5,JSON.parse(configRes.body).length);
+      assert.equal(5,JSON.parse(configRes.body).configs.length);
       // validate that attemption to fetch will return an array of expected size
-      util.request.exec('GET','/config?'+stringify({token:authData.token,name:"Samson Service"}),null,(configRes)=>{
+      util.request.exec('GET','/config?'+stringify({token:authData.token,name:"Dancing Service"}),null,(configRes)=>{
         assert.equal(404,configRes.statusCode);
         assert.equal(true,JSON.parse(configRes.body).error);
         testModifyExisting(authData);

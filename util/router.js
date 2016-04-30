@@ -9,7 +9,7 @@ module.exports = {
       util.log('request url:',req.url);
       util.log('request method:',req.method);
       util.log('request path: ',path);
-      if(!req.method.match(/PUT|DELETE|PATCH|GET|POST/)) {
+      if(!req.method.match(/^PUT|DELETE|PATCH|GET|POST$/i)) {
         req.emit('error',new util.request.error(405,"Method Not Allowed - ",req.method));
         return;
       }

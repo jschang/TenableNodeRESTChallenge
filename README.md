@@ -22,9 +22,9 @@ The Challenge
 routes that:**
 
   _1) Allow a user to login_
-  
+
     POST /auth
-    
+
 Request body:
 
     {username:_username_,password:_password_}
@@ -32,15 +32,17 @@ Request body:
 Response body: 
 
     {token:_token_}
+
     
   _2) Allow a user to logout_
   
     DELETE /auth?token={token}
     
-Removes the session token, effectively ending the user's login.
-Responds with either a 200 or 404, if the session is not found.
-  
-  _3) Mine...allow auth checks from the config microservice_
+* Removes the session token, effectively ending the user's login.
+* Responds with either a 200 or 404, if the session is not found.  
+
+
+  _3) Allow auth checks from the config microservice (mine)_
     
     GET /auth?token={token}
     
@@ -50,14 +52,25 @@ Responds with either a 200 or 404, if the session is not found.
 compliant API with routes that allow an authenticated user to:**
 
   _1) Retrieve server configurations as JSON data (using the below as a sample)_
-  
+    
     GET /config?token={token} 
     
-responds with all configs
-    
-    GET /config?token={token}&name={verboseName} 
-    
-responds with a single config
+Response body:
+
+    {
+      configs:[
+        {name:_name_,hostname:_hostname_,port:_port_,username:_username_},
+        ...
+      ]
+    }  
+
+  _1.2) To retrieve a specific configuration (mine)_
+
+    GET /config?token={token}&name={verboseName}
+
+Response body:
+
+    {name:_name_,hostname:_hostname_,port:_port_,username:_username_}
 
   _2) Create configurations_
   
@@ -96,7 +109,13 @@ REST compliant API routes to support:**
 
   _1) Sorting by name, hostname, port, or username_
   
-_yet to be completed_
+    GET /config?token={token}[&sort={name|hostname|port|username}[&dir={|asc|desc}]]
+    
+* When _dir_ isn't passed in, and you specify a sort, then you get an ascended sort.
+* Unsupported sorts and directions are currently ignored.
+
+Response body:
+
   
   _2) Pagination (you will need to randomize and expand the confgiurations for this)_
   

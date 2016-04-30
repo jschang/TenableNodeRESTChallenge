@@ -7,7 +7,7 @@ module.exports = {
       username:"fargo"
     },
     {
-      name:"Samson Service",
+      name:"Dancing Service",
       hostname:"samson.jonschang.com",
       port:3543,
       username:"fetidsocks"
@@ -15,19 +15,19 @@ module.exports = {
     {
       name:"Tiel Iguana Service",
       hostname:"tiel-iguana.jonschang.com",
-      port:3452,
+      port:323,
       username:"preciousegret"
     },
     {
       name:"Schang Wow Service",
       hostname:"schang-wow.jonschang.com",
-      port:3452,
+      port:8584,
       username:"fairsnake"
     },
     {
       name:"Neopolitan Wuh Service",
       hostname:"neopolitan-wuh.jonschang.com",
-      port:4565,
+      port:11211,
       username:"grapplinghook"
     }
   ]
