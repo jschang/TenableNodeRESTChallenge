@@ -46,8 +46,8 @@ in the wild.
 Names are evaluated in a case-sensitive manner, with the exception of sorting.
 
 There's also a session cleaning interval set in the auth/data.js.  It fires every
-500 ms and rifles through the sessions to trim off any that are stale.  IRL,
-this would likely be a memcached cluster or cassandra.
+_{sharedConfig.sessions.collectionInterval}_ ms and rifles through the sessions 
+to trim off any that are stale.  IRL, this would likely be a memcached cluster or cassandra.
 
 
 
