@@ -12,7 +12,7 @@ if(onEnd) onEnd();
     
 var testBadLoginUser = (onEnd) => {
   // make sure that bad logins are rejected
-  util.request.exec('POST','/auth/tacos',{username:'jschang',password:'asdf'},
+  util.request.exec('POST','/auth',{username:'jschang',password:'asdf'},
     (res)=>{
       var data = JSON.parse(res.body);
       assert.equal(404,res.statusCode,"Expected a 404 response");
