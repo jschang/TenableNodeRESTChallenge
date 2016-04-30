@@ -14,10 +14,17 @@ To Evaluate
 Kick off the server, which runs on 127.0.0.1:13337 by default 
 
     $ node server.js  
+    ... server output ...
   
 then run the tests (in a separate terminal)
 
     $ node client-test.js  
+    Rickys-iMac:tenable schang$ node client-test.js
+    2016-04-30T17:59:44.745Z  auth test passed
+    2016-04-30T17:59:44.802Z  config test passed
+    2016-04-30T17:59:44.835Z  config-sort test passed
+    2016-04-30T17:59:44.863Z  config-paginate test passed
+    2016-04-30T17:59:44.863Z  HOORAY!
 
 The tests are designed to run against the original "database" and do modify it.
 Consequently, executing twice on the same node instance will result in failure
