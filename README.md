@@ -7,6 +7,7 @@ challenge offered by Tenable Network Security.
 I'm actually not even a little curious about how they'll test this.
 
 
+
 To Evaluate
 ===========
 
@@ -24,6 +25,11 @@ on the second round.  If you really want to run the tests twice, then
 stop the node server and restart it.
 
 If there isn't enough garbage for you, logging is controlled in ./shared-config.js  =D
+
+Also, I covered the core functionality in the tests, not every possible error 
+condition that I could think of.
+
+
 
 Implementation Notes
 --------------------
@@ -170,17 +176,38 @@ REST compliant API routes to support:**
   
     GET /config?token={token}[&sort={name|hostname|port|username}[&dir={|asc|desc}]]
     
-* When _dir_ isn't passed in, and you specify a sort, then you get an ascended sort.
+* When _dir_ isn't passed in, and you specify a sort, then you get an ascending sort.
 * Unsupported sorts and directions are currently ignored.
 
 Response body:
+
+    {
+      configs:[
+        {name:_name_,hostname:_hostname_,port:_port_,username:_username_},
+        ...
+      ]
+    } 
 
   
   _2) Pagination (you will need to randomize and expand the confgiurations for this)_
   
     GET /config?token={token}[..sort..][&count=0][&start={number}]
 
+* When _count_ is omitted or 0, then it returns the remainder starting from _start_
+* When _start_ is beyond the end of the data, it returns an empty array
+* Elsewise, functions as expected..._count_ is the window, _start_ is where in the data
+store to start from
 
+Response body:
+
+    {
+      configs:[
+        {name:_name_,hostname:_hostname_,port:_port_,username:_username_},
+        ...
+      ]
+    } 
+    
+    
 
 Standard Responses
 ------------------
