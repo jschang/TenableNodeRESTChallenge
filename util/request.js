@@ -28,7 +28,7 @@ module.exports = {
       }
     }
   },
-  exec:function(method,path,obj,callback) {  
+  exec:function(method,path,obj,callback,errorCallback) {  
     var headers = {};
     var postData = null;
     if(obj!==null) {
@@ -66,7 +66,9 @@ module.exports = {
           })
       });
       req.on('error',function(e) {
-          util.log('request error: ',e);
+          util.dbg('request error: ',e);
+          if(errorCallback)
+            errorCallback(req);
       });
       if(postData) {
         req.write(postData);
