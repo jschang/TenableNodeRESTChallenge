@@ -60,8 +60,8 @@ module.exports = {
     util.dbg('fetchAll parms:',[sort,dir,start,count]);
     var toret = data.configs.slice();
     sortify(sort,dir,toret); // TODO: cache sorted results.  IRL, db index and memcached, of course
-    if(count && start<toret.length) {
-      toret = toret.slice(start,start+count);
+    if(start<toret.length) {
+      toret = count ? toret.slice(start,start+count) : toret.slice(start);
     }
     var ret = []
     for(var conf of toret) 

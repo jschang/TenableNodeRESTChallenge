@@ -28,9 +28,15 @@ module.exports = (onEnd) => {
       // validate that they are the two they should be
       assert.equal(allConfigs[0].name,configs[0].name);
       assert.equal(allConfigs[1].name,configs[1].name);
+  // request the some portion to the end
+  testFetchSorted(res,'name','asc',allConfigs.length-2,null,(configs) => {
+      assert.equal(2,configs.length)
+      // validate that it's the last two
+      assert.equal(allConfigs[allConfigs.length-2].name,configs[0].name);
+      assert.equal(allConfigs[allConfigs.length-1].name,configs[1].name);
   util.log('config-paginate test passed');
   if(onEnd) onEnd();
-  });});});});});});
+  });});});});});});});
 }
 
 var testFetchSorted = (authRes,sort,dir,start,count,onEnd)=>{

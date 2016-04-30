@@ -178,7 +178,7 @@ Response body:
   
   _2) Pagination (you will need to randomize and expand the confgiurations for this)_
   
-_yet to be completed_
+    GET /config?token={token}[..sort..][&count=0][&start={number}]
 
 
 
