@@ -43,6 +43,8 @@ There's also a session cleaning interval set in the auth/data.js.  It fires ever
 500 ms and rifles through the sessions to trim off any that are stale.  IRL,
 this would likely be a memcached cluster or cassandra.
 
+
+
 Known Issue
 -----------
 

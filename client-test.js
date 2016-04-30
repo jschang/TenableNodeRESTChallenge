@@ -5,9 +5,9 @@ var configSortTest = require('./svc-test/config-sort.js');
 var configPaginateTest = require('./svc-test/config-paginate.js');
 
 authTest(()=>{
-configTest(()=>{
+//configTest(()=>{
 configSortTest(()=>{
 configPaginateTest(()=>{
 util.log('HOORAY!');
-});});});});
+});});});//});
 

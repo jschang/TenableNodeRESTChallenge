@@ -54,17 +54,18 @@ module.exports = {
    * @param int count count to return (optional)
    */
   fetchAll:function(sort,dir,start,count,cb) {
-    util.dbg('fetchAll parms:',[sort,dir,start,count]);
-    var toret = data.configs;
     var start = typeof(start)!='undefined' ? start : 0;
     var count = typeof(count)!='undefined' ? count : 0;
-    if(count && start<data.configs.length) {
-      toret = data.configs.slice(start,start+count);
+    if(start > data.configs.length) cb([]);
+    util.dbg('fetchAll parms:',[sort,dir,start,count]);
+    var toret = data.configs.slice();
+    sortify(sort,dir,toret); // TODO: cache sorted results.  IRL, db index and memcached, of course
+    if(count && start<toret.length) {
+      toret = toret.slice(start,start+count);
     }
     var ret = []
     for(var conf of toret) 
       ret.push(Object.assign({},conf));
-    sortify(sort,dir,ret);
     cb(ret);
     return;
   },
