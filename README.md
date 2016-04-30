@@ -157,13 +157,12 @@ Responds with a 409 if you try to create a pre-existing name.
 
   _3) Delete configurations_
   
-  DELETE /auth?token={token}&name=_urlEncodedVerboseName_
-
-
+    DELETE /auth?token={token}&name=_urlEncodedVerboseName_
+    
   _4) Modify configurations_
   
-  PATCH /auth?token={token}&name=_urlEncodedVerboseName_
-  
+    PATCH /auth?token={token}&name=_urlEncodedVerboseName_
+
 Post body:
 
     {
