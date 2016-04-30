@@ -5,6 +5,7 @@ const sharedConfig = require('../shared-config.js');
 
 function RequestError(statusCode,message) {  
   Error.call(this);
+  util.dbg('creating RequestError(',statusCode,',',message,')');
   this.statusCode = statusCode;
   this.message = message;
 }

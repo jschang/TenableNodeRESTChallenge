@@ -3,16 +3,20 @@ const http = require('http');
 const util = require('../util.js');
 const stringify = require("querystring").stringify;
 
-util.request.exec('POST','/auth',{username:'jon',password:'fantastic'},(res) => {
-testFetchSorted(res,'username','asc',() => {
-testFetchSorted(res,'hostname','asc',() => {
-testFetchSorted(res,'name','asc',() => {
-testFetchSorted(res,'port','asc',() => {
-testFetchSorted(res,'username','desc',() => {
-testFetchSorted(res,'hostname','desc',() => {
-testFetchSorted(res,'name','desc',() => {
-testFetchSorted(res,'port','desc',() => {
-});});});});});});});});});
+module.exports = function(onEnd) {
+  util.request.exec('POST','/auth',{username:'jon',password:'fantastic'},
+  (res) => {
+    testFetchSorted(res,'username','asc',() => {
+    testFetchSorted(res,'hostname','asc',() => {
+    testFetchSorted(res,'name','asc',() => {
+    testFetchSorted(res,'port','asc',() => {
+    testFetchSorted(res,'username','desc',() => {
+    testFetchSorted(res,'hostname','desc',() => {
+    testFetchSorted(res,'name','desc',() => {
+    testFetchSorted(res,'port','desc',() => {
+    if(onEnd) onEnd();
+  });});});});});});});});});
+}
 
 var testFetchSorted = (authRes,sort,dir,next)=>{
   var authData = JSON.parse(authRes.body);

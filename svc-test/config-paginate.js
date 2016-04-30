@@ -3,16 +3,19 @@ const http = require('http');
 const util = require('../util.js');
 const stringify = require("querystring").stringify;
 
-util.request.exec('POST','/auth',{username:'jon',password:'fantastic'},(res) => {
-testFetchSorted(res,'username','asc',3,2,() => {
-testFetchSorted(res,'hostname','asc',3,2,() => {
-testFetchSorted(res,'name','asc',3,2,() => {
-testFetchSorted(res,'port','asc',3,2,() => {
-testFetchSorted(res,'username','desc',3,2,() => {
-testFetchSorted(res,'hostname','desc',3,2,() => {
-testFetchSorted(res,'name','desc',3,2,() => {
-testFetchSorted(res,'port','desc',3,2,() => {
-});});});});});});});});});
+module.exports = (onEnd) => {    
+  util.request.exec('POST','/auth',{username:'jon',password:'fantastic'},(res) => {
+    testFetchSorted(res,'username','asc',2,2,() => {
+    testFetchSorted(res,'hostname','asc',2,2,() => {
+    testFetchSorted(res,'name','asc',2,2,() => {
+    testFetchSorted(res,'port','asc',2,2,() => {
+    testFetchSorted(res,'username','desc',2,2,() => {
+    testFetchSorted(res,'hostname','desc',2,2,() => {
+    testFetchSorted(res,'name','desc',2,2,() => {
+    testFetchSorted(res,'port','desc',2,2,() => {
+    if(onEnd) onEnd();
+  });});});});});});});});}); 
+}
 
 var testFetchSorted = (authRes,sort,dir,start,count,next)=>{
   var authData = JSON.parse(authRes.body);
@@ -42,7 +45,7 @@ var testFetchSorted = (authRes,sort,dir,start,count,next)=>{
       assert(sortedRight)
       last = conf;
     }
+    assert.equal(count,configs.length);
     if(next) next();
   });
 }
-

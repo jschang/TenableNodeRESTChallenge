@@ -20,13 +20,16 @@ module.exports = util.auth.wrap((req,res)=>{
       req.emit('error',util.request.error(400,'Both start and count parameters must be numbers'));
       return;
     }
-    model.fetchAll((data)=>{
+    start = Math.floor(start);
+    count = Math.floor(count);
+    model.fetchAll(query.sort,query.dir,start,count,(data)=>{
+        util.log(data);
       if(data) {
         res.writeHead(200,{'Content-Type':'application/json'});
         res.end(JSON.stringify({configs:data}))
       } else {
         req.emit('error', new util.request.error(404,'Not Found'));
       }
-    },query.sort,query.dir,start,count);
+    });
   }
 });

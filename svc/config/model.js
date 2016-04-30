@@ -53,7 +53,7 @@ module.exports = {
    * @param int start index to start from (optional)
    * @param int count count to return (optional)
    */
-  fetchAll:function(cb,sort,dir,start,count) {
+  fetchAll:function(sort,dir,start,count,cb) {
     util.dbg('fetchAll parms:',[sort,dir,start,count]);
     var toret = data.configs;
     var start = typeof(start)!='undefined' ? start : 0;
