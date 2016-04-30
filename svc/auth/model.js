@@ -5,13 +5,6 @@ var data = require('./data.js');
 var sharedSecret = sharedConfig.sessions.sharedSecret;
 var tokenTtl = sharedConfig.sessions.tokenTtl;
 
-/*
-  I decided to implement these with callbacks,
-  as in the real-world we'd be talking to a server
-  like Mongo.
-  In the real-world, there would be an error call back as well.
-*/
-
 module.exports = {
   /**
    * @param callback cb(user:object) the user object if found, else null
@@ -37,6 +30,7 @@ module.exports = {
     return false;
   },
   /**
+   * @param user user the full user object from fetchUser
    * @param callback cb(token:string) the session token created for the user
    */
   startSession:function(user,cb) {
@@ -53,6 +47,7 @@ module.exports = {
     cb(token);
   },
   /**
+   * @param string token the auth token in.
    * @param callback cb(token:object) the session token object created for the user, else false
    */
   getSession:function(token,cb) {
@@ -63,6 +58,7 @@ module.exports = {
     cb(false);
   },
   /**
+   * @param string token the auth token
    * @param callback cb(success:boolean) true if a session was deleted, else false
    */
   endSession:function(token,cb) {

@@ -82,6 +82,10 @@ module.exports = {
     }
     cb(null);
   },
+  /**
+   * @param object config {username:'',hostname:'',port:'',name:''}
+   * @param callback cb(ret:boolean) true on success, false if exists or other
+   */
   create:function(config,cb) {
     this.fetch(config.name,(existingConfig)=> {
       if(existingConfig) {
@@ -96,6 +100,7 @@ module.exports = {
     });
   },
   /**
+   * @param object config {username:'',hostname:'',port:'',name:''}
    * @param callback succ(didUpdate:bool)
    */
   delete:function(config,cb) {
@@ -111,6 +116,7 @@ module.exports = {
     return;
   },
   /**
+   * @param object config {username:'',hostname:'',port:'',name:''}
    * @param callback succ(didUpdate:bool)
    */
   update:function(config,cb) {
