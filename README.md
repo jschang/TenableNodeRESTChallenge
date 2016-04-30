@@ -31,7 +31,7 @@ allow for a session verification endpoint, which is used by the /config endpoint
 
 There is a custom router implementation in util/router.js, which can handle
 pathing of arbitrary depth and allows the request method to be specified.
-The root of routing is svc/routes.js
+The root of routing is svc/routes.js.
 
 Also, to be noted, this impl is served HTTP in plain-text...horribly insecure.
 My excuse for letting it slide is that it would most likely be running on HTTPS 
@@ -39,7 +39,9 @@ in the wild.
 
 Names are evaluated in a case-sensitive manner, with the exception of sorting.
 
-
+There's also a session cleaning interval set in the auth/data.js.  It fires every
+500 ms and rifles through the sessions to trim off any that are stale.  IRL,
+this would likely be a memcached cluster or cassandra.
 
 Known Issue
 -----------

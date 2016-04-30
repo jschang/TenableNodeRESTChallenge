@@ -13,7 +13,6 @@ nodeUtil.inherits(RequestError, Error);
 module.exports = {
   error:RequestError,
   handleServerError:function(req,res,e) {
-    console.log('hreereasdga');
     if(e instanceof util.request.error) {
       util.dbg('responding with ',e.statusCode,' and message ',e.message);
       if(!res.finished) {
@@ -21,10 +20,10 @@ module.exports = {
         res.end(JSON.stringify({error:true,message:e.message}));
       }
     } else {
-      util.dbg('server exception:',e.message,e.stackTrace);
+      util.dbg('server exception:',e);
       if(!res.finished) {
         res.writeHead(500,{'Content-Type':'application/json'});
-        res.end(JSON.stringify({error:true,message:e.message}));
+        res.end(JSON.stringify({error:true,message:(e?e.message:null)}));
       }
     }
   },

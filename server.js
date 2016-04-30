@@ -44,7 +44,7 @@ const server = http.createServer((req,res)=>{
 }).listen(sharedConfig.api.port,sharedConfig.api.host);
 
 server.on('clientError', (err, socket) => {
-  util.log('clientError: ',err.message,err.stackTrace);
+  util.log('clientError: ',err);
   socket.end(responseCodes[400]);
 });
 

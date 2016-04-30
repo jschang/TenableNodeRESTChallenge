@@ -8,7 +8,7 @@ var data = require('./data.js');
   In the real-world, there would be an error call back as well.
 */
 
-var fetchIndexOf = function(name) {
+const fetchIndexOf = function(name) {
   var i = 0;
   for(var conf of data.configs) {
     if(conf.name==name) {
@@ -19,18 +19,56 @@ var fetchIndexOf = function(name) {
   return -1;
 };
 
+const sortify = (sort,dir,data) => {
+  if(sort && sort.match(/^hostname|username|port|name$/i)) {
+    var sort = sort.toLowerCase();
+    var dir = 'asc'
+    if(dir && dir.match(/^asc|desc$/i)) {
+      dir = dir.toLowerCase();
+    }
+    util.dbg('sort:',sort,',dir:',dir);
+    data.sort(function(a,b) {
+        var left = dir == 'asc' ? a[sort] : b[sort];
+        var right = dir == 'asc' ? b[sort] : a[sort];
+        if(typeof(left[sort])=='string' 
+            || typeof(right[sort])=='string') {
+          left = left.toLowerCase();
+          right = right.toLowerCase();
+        } 
+        if( left < right ) {
+          return -1
+        } else if( left > right ){
+          return 1;
+        }
+        return 0;
+    });
+  }
+}
+
 module.exports = {
   /**
-   * @param callback cb(ret:array) an array of configs
+   * @param callback cb(ret:array) an array of configs (optional)
+   * @param string sort username|hostname|port|name (optional)
+   * @param string dir asc|desc (optional; default: asc; ignored if sort not set)
+   * @param int start index to start from (optional)
+   * @param int count count to return (optional)
    */
-  fetchAll:function(cb) {
+  fetchAll:function(cb,sort,dir,start,count) {
+    var start = typeof(start)!='undefined' ? start : 0;
+    var count = typeof(count)!='undefined' ? count : 0;
+    var toret = data.configs;
+    if(count && start<data.configs.length) {
+      toret = data.configs.slice(start,start+count);
+    }
     var ret = []
-    for(var conf of data.configs) 
+    for(var conf of toret) 
       ret.push(Object.assign({},conf));
+    sortify(sort,dir,ret);
     cb(ret);
     return;
   },
   /**
+   * @param string name the case-sensitive name of the config desired
    * @param callback cb(ret:object) the specific config, if found, else null
    */
   fetch:function(name,cb) {
