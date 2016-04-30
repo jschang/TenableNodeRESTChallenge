@@ -19,12 +19,12 @@ const fetchIndexOf = function(name) {
   return -1;
 };
 
-const sortify = (sort,dir,data) => {
-  if(sort && sort.match(/^hostname|username|port|name$/i)) {
-    var sort = sort.toLowerCase();
-    var dir = 'asc'
-    if(dir && dir.match(/^asc|desc$/i)) {
-      dir = dir.toLowerCase();
+const sortify = (inSort,inDir,data) => {
+  if(inSort && inSort.match(/^hostname|username|port|name$/i)) {
+    var sort = inSort.toLowerCase();
+    var dir = 'asc';
+    if(inDir && inDir.match(/^asc|desc$/i)) {
+      dir = inDir.toLowerCase();
     }
     util.dbg('sort:',sort,',dir:',dir);
     data.sort(function(a,b) {
@@ -54,6 +54,7 @@ module.exports = {
    * @param int count count to return (optional)
    */
   fetchAll:function(cb,sort,dir,start,count) {
+    util.dbg('fetchAll parms:',[sort,dir,start,count]);
     var start = typeof(start)!='undefined' ? start : 0;
     var count = typeof(count)!='undefined' ? count : 0;
     var toret = data.configs;

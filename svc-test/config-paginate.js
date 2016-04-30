@@ -29,21 +29,18 @@ var testFetchSorted = (authRes,sort,dir,start,count,next)=>{
     assert.equal(200,configRes.statusCode);
     var configs = JSON.parse(configRes.body).configs;
     var last = configs.shift();
+    last[sort] = sort!='port' ? last[sort].toLowerCase() : last[sort];
     for(var conf of configs) {
-      util.log('comparing ',last[sort],' to ',conf[sort]);
-      assert(
-        dir == 'asc'
-        ? (
-          sort!='port' 
-          ? (conf[sort].toLowerCase() < last[sort].toLowerCase())
-          : (conf[sort] < last[sort])
-        )
-        : (
-          sort!='port' 
-          ? (conf[sort].toLowerCase() > last[sort].toLowerCase())
-          : (conf[sort] > last[sort])
-        )
-      );
+      conf[sort] = sort!='port' ? conf[sort].toLowerCase() : conf[sort];
+      var sortedRight = false;
+      if(dir == 'asc') {
+        sortedRight = (last[sort] < conf[sort]);
+      } else {
+        sortedRight = (last[sort] > conf[sort]);
+      }
+      util.dbg('parms',[sort,dir]);
+      util.dbg('comparing ',last[sort],' to ',conf[sort],' yielding ',sortedRight);
+      assert(sortedRight)
       last = conf;
     }
     if(next) next();
