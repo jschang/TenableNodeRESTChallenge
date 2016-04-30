@@ -11,6 +11,6 @@ module.exports = {
     },
     logging:{
       regular:true,
-      debug:true
+      debug:false
     }
 }
