@@ -1,6 +1,6 @@
 module.exports = {
     api:{
-        port:8000,
+        port:13337,
         host:'127.0.0.1'
     },
     sessions:{
