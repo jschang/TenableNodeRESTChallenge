@@ -101,7 +101,7 @@ module.exports = {
   delete:function(config,cb) {
     var confIdx = fetchIndexOf(config.name)
     if(confIdx!=(-1)) {
-      util.log('DELETE: ',config);
+      util.dbg('DELETE: ',config);
       data.configs.splice(confIdx,1);
       util.dbg('DELETE new configs: ',data.configs);
       cb(true);

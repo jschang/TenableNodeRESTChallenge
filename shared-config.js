@@ -5,7 +5,9 @@ module.exports = {
     },
     sessions:{
         sharedSecret:'mysharedsecret',
-        tokenTtl:60
+        tokenTtl:60,
+        collectionInterval:1000,
+        
     },
     logging:{
       regular:true,

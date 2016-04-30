@@ -14,6 +14,7 @@ module.exports = function(onEnd) {
     testFetchSorted(res,'hostname','desc',() => {
     testFetchSorted(res,'name','desc',() => {
     testFetchSorted(res,'port','desc',() => {
+    util.log('config-sort test passed');
     if(onEnd) onEnd();
   });});});});});});});});});
 }

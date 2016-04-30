@@ -7,7 +7,7 @@ module.exports = (onEnd) => {
   util.request.exec('POST','/auth',{username:'jon',password:'fantastic'},(res) => {
   // fetch the current state of the configs data
   testFetchSorted(res,'name','asc','','',(allConfigs) => {
-      console.log('all configs: ',allConfigs);
+      util.dbg('all configs: ',allConfigs);
   // request a few from anywhere in the middle
   testFetchSorted(res,'name','asc',2,2,(configs) => {
       assert.equal(2,configs.length)
@@ -28,6 +28,7 @@ module.exports = (onEnd) => {
       // validate that they are the two they should be
       assert.equal(allConfigs[0].name,configs[0].name);
       assert.equal(allConfigs[1].name,configs[1].name);
+  util.log('config-paginate test passed');
   if(onEnd) onEnd();
   });});});});});});
 }

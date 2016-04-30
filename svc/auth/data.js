@@ -2,6 +2,7 @@ const sharedConfig = require('../../shared-config.js');
 const util = require('../../util.js');
 
 var sharedServerSecret = sharedConfig.sessions.sharedSecret;
+var collectionInterval = sharedConfig.sessions.collectionInterval;
 
 var data = module.exports = {
     users:{
@@ -34,4 +35,4 @@ setInterval(function() {
         }
     }
     util.dbg('data.sessionsCleaned '+sessionsCleaned+' of '+Object.keys(data.sessions).length);
-},5000);
+},collectionInterval);

@@ -4,6 +4,7 @@ Tenable REST API Challenge
 Here we have my implementation of a Node.js REST api
 challenge offered by Tenable Network Security. 
 
+I'm actually not even a little curious about how they'll test this.
 
 
 To Evaluate
@@ -17,7 +18,12 @@ then run the tests (in a separate terminal)
 
     $ node client-test.js  
 
+The tests are designed to run against the original "database" and do modify it.
+Consequently, executing twice on the same node instance will result in failure
+on the second round.  If you really want to run the tests twice, then
+stop the node server and restart it.
 
+If there isn't enough garbage for you, logging is controlled in ./shared-config.js  =D
 
 Implementation Notes
 --------------------

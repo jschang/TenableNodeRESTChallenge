@@ -32,6 +32,7 @@ testActualNew(authData,() => {
 testFetchCreated(authData,() => {
 testDeleteExisting(authData,() => {
 testModifyExisting(authData,() => {
+util.log('config test passed');
 if(onEnd) onEnd();
 });});});});});});});}
 

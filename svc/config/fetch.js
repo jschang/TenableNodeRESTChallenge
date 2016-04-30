@@ -23,7 +23,6 @@ module.exports = util.auth.wrap((req,res)=>{
     start = Math.floor(start);
     count = Math.floor(count);
     model.fetchAll(query.sort,query.dir,start,count,(data)=>{
-        util.log(data);
       if(data) {
         res.writeHead(200,{'Content-Type':'application/json'});
         res.end(JSON.stringify({configs:data}))

@@ -6,6 +6,7 @@ module.exports = function(onEnd) {
 testBadLoginUser(function() {
 testBadLogin(function() {
 testLoginLogout(function() {
+util.log('auth test passed');
 if(onEnd) onEnd();
 })})})}
     
